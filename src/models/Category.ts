@@ -1,7 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utilities/DBInstance";
+import Movie from "./Movies";
 
-export const Category = sequelize.define("Categories", {
+const Category = sequelize.define("Categories", {
   id: {
     primaryKey: true,
     autoIncrement: true,
@@ -9,3 +10,5 @@ export const Category = sequelize.define("Categories", {
   },
   name: DataTypes.STRING(120),
 });
+
+export default Category;

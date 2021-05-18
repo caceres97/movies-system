@@ -5,6 +5,7 @@ class MovieRoutes extends Routes {
   constructor() {
     super();
 
+    this.likeAction();
     this.getMovie();
     this.getMovies();
     this.createMovie();
@@ -14,6 +15,10 @@ class MovieRoutes extends Routes {
     // Always at last
     this.urlNotFound();
   }
+
+  public likeAction = (): void => {
+    this.router.post("/:idMovie/users/:idUser/likes", movieController.likeAction);
+  };
 
   public getMovie = (): void => {
     this.router.get("/:id", movieController.getSingleResource);

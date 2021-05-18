@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utilities/DBInstance";
-import { Category } from "../models/Category";
+import Category from "../models/Category";
 
 export interface MovieAttributes {
   id: number;
@@ -10,7 +10,7 @@ export interface MovieAttributes {
   coverPhoto: string;
 }
 
-export const Movie = sequelize.define("Movies", {
+const Movie = sequelize.define("Movies", {
   id: {
     primaryKey: true,
     autoIncrement: true,
@@ -27,3 +27,8 @@ export const Movie = sequelize.define("Movies", {
   release_year: DataTypes.INTEGER,
   cover_photo: DataTypes.STRING(500),
 });
+
+Category.hasOne(Movie, { foreignKey: "id" });
+Movie.belongsTo(Category, { foreignKey: "id_category" });
+
+export default Movie;

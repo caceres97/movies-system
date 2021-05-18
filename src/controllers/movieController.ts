@@ -1,23 +1,59 @@
 import Controller from "../utilities/Controller";
 import { Request, Response } from "express";
-import { Movie, MovieAttributes } from "../models/Movies";
+import Movie, { MovieAttributes } from "../models/Movies";
 import { Op } from "sequelize";
 import snakecaseKeys from "snakecase-keys";
 import { Sequelize } from "sequelize/types";
+import Category from "../models/Category";
+import Like from "../models/Likes";
 
 class MovieController extends Controller {
   constructor() {
     super("movies");
   }
 
+  likeAction = async (req: Request, res: Response) => {
+    // const likeData = snakecaseKeys(req.params);
+    const { idMovie, idUser } = req.params;
+
+    const likeData = {
+      id_user: Number(idUser),
+      id_movie: Number(idMovie),
+    };
+
+    const recentLike = await Like.findOne({
+      where: {
+        ...likeData,
+      },
+    });
+    console.log(recentLike);
+
+    if (!recentLike) {
+      const likedMovie = await Like.create(likeData);
+      res.send({
+        message: "liked",
+        liked: true,
+      });
+    } else {
+      const unlikedMovie = await Like.destroy({
+        where: {
+          ...likeData,
+        },
+      });
+      res.send({
+        message: "unliked",
+        liked: false,
+      });
+    }
+  };
+
   getSingleResource = async (req: Request, res: Response) => {
     try {
-      const id = Number(req.params.id);
+      const id = req.params.id;
 
-      const movie = await Movie.findAll({
-        where: {
-          id,
-        },
+      const movie = await Movie.findOne({
+        where: { id },
+        include: [{ model: Category, required: true }],
       });
 
       if (movie) {
@@ -42,7 +78,7 @@ class MovieController extends Controller {
       let attributes = {};
       if (search) {
         attributes = {
-          where: { name: { [Op.like]: search } },
+          where: { name: { [Op.substring]: search } },
         };
       }
 

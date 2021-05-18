@@ -1,15 +1,15 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utilities/DBInstance";
 import { User } from "../models/Users";
-import { Movie } from "../models/Movies";
+import Movie from "../models/Movies";
 
-export interface MovieAttributes {
+export interface LikeAttributes {
   id: number;
   idUser: number;
   idMovie: number;
 }
 
-export const Like = sequelize.define("Movies", {
+const Like = sequelize.define("Likes", {
   id: {
     primaryKey: true,
     autoIncrement: true,
@@ -30,3 +30,8 @@ export const Like = sequelize.define("Movies", {
     },
   },
 });
+
+// Movie.belongsToMany(User, { through: Like });
+// User.belongsToMany(Movie, { through: Like });
+
+export default Like;
