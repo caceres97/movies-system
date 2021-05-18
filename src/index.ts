@@ -3,6 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import fileUpload from "express-fileupload";
 import userRoutes from "./routes/userRoutes";
+import movieRoutes from "./routes/movieRoutes";
 
 class Server {
   public app: Application;
@@ -26,6 +27,7 @@ class Server {
 
   routes(): void {
     this.app.use("/users", userRoutes);
+    this.app.use("/movies", userRoutes);
   }
 
   start(): void {
