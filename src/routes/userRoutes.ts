@@ -7,17 +7,22 @@ class UserRoutes extends Routes {
 
     this.getUser();
     this.createUser();
+    this.deleteMovie();
 
     // Always at last
     this.urlNotFound();
   }
 
   public getUser = (): void => {
-    this.router.get("/", userController.getSingleResource);
+    this.router.get("/:id", userController.getSingleResource);
   };
 
   public createUser = (): void => {
     this.router.post("/", userController.createResource);
+  };
+
+  public deleteMovie = (): void => {
+    this.router.delete("/:id", userController.deleteResource);
   };
 }
 

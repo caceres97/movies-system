@@ -7,8 +7,29 @@ class UserController extends Controller {
     super("users");
   }
 
-  getSingleResource = (req: Request, res: Response) => {
-    res.send("hello");
+  getSingleResource = async (req: Request, res: Response) => {
+    try {
+      const id = Number(req.params.id);
+
+      const movie = await User.findAll({
+        where: {
+          id,
+        },
+      });
+
+      if (movie) {
+        res.status(200).send(movie);
+      } else {
+        res.status(404).send({
+          message: "Resource not found",
+        });
+      }
+    } catch (error) {
+      res.status(500).send({
+        message: "Unexpected error",
+        error,
+      });
+    }
   };
 
   createResource = async (req: Request, res: Response) => {
@@ -34,8 +55,37 @@ class UserController extends Controller {
     }
   };
 
-  updateResource = (req: Request, res: Response) => {
-    res.send("hello");
+  deleteResource = async (req: Request, res: Response) => {
+    try {
+      if (req.params) {
+        const id: number = Number(req.params.id);
+
+        const deletedMovie = await User.destroy({
+          where: { id },
+        });
+
+        if (deletedMovie) {
+          res.status(200).send({
+            message: "Resource deleted successfully",
+            resourceId: deletedMovie,
+          });
+        } else {
+          res.status(204).send({
+            message: "Resource wasn't deleted",
+            resource: deletedMovie,
+          });
+        }
+      } else {
+        res.status(400).send({
+          message: "Param 'id' expected",
+        });
+      }
+    } catch (error) {
+      res.status(500).send({
+        message: "Unexpected error",
+        error,
+      });
+    }
   };
 }
 
