@@ -1,15 +1,66 @@
 import Controller from "../utilities/Controller";
 import { Request, Response } from "express";
 import { Movie, MovieAttributes } from "../models/Movies";
+import { Op } from "sequelize";
 import snakecaseKeys from "snakecase-keys";
+import { Sequelize } from "sequelize/types";
 
 class MovieController extends Controller {
   constructor() {
     super("movies");
   }
 
-  getSingleResource = (req: Request, res: Response) => {
-    res.send("hello");
+  getSingleResource = async (req: Request, res: Response) => {
+    try {
+      const id = Number(req.params.id);
+
+      const movie = await Movie.findAll({
+        where: {
+          id,
+        },
+      });
+
+      if (movie) {
+        res.status(200).send(movie);
+      } else {
+        res.status(404).send({
+          message: "Resource not found",
+        });
+      }
+    } catch (error) {
+      res.status(500).send({
+        message: "Unexpected error",
+        error,
+      });
+    }
+  };
+
+  getResources = async (req: Request, res: Response) => {
+    //TODO: paginate
+    try {
+      const search = req.query.search;
+      let attributes = {};
+      if (search) {
+        attributes = {
+          where: { name: { [Op.like]: search } },
+        };
+      }
+
+      const movies = await Movie.findAll(attributes);
+      
+      if (movies) {
+        res.status(200).send(movies);
+      } else {
+        res.status(404).send({
+          message: "Resource not found",
+        });
+      }
+    } catch (error) {
+      res.status(500).send({
+        message: "Unexpected error",
+        error,
+      });
+    }
   };
 
   createResource = async (req: Request, res: Response) => {
