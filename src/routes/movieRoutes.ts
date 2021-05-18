@@ -1,27 +1,28 @@
 import Routes from "../utilities/Routes";
-import userController from "../controllers/userController";
+import movieController from "../controllers/movieController";
 
 class MovieRoutes extends Routes {
   constructor() {
     super();
 
-    this.getUser();
-    this.createUser();
+    this.getMovie();
+    this.createMovie();
+    this.updateMovie();
 
     // Always at last
     this.urlNotFound();
   }
 
-  public getUser = (): void => {
-    this.router.get("/", userController.getSingleResource);
+  public getMovie = (): void => {
+    this.router.get("/", movieController.getSingleResource);
   };
 
-  public createUser = (): void => {
-    this.router.post("/", userController.createResource);
+  public createMovie = (): void => {
+    this.router.post("/", movieController.createResource);
   };
 
   public updateMovie = (): void => {
-    this.router.post("/:id", userController.updateResource);
+    this.router.put("/:id", movieController.updateResource);
   };
 }
 

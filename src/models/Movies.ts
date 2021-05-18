@@ -25,5 +25,5 @@ export const Movie = sequelize.define("Movies", {
   },
   name: DataTypes.STRING(120),
   release_year: DataTypes.INTEGER,
-  cove_photo: DataTypes.STRING(500),
+  cover_photo: DataTypes.STRING(500),
 });

@@ -27,7 +27,7 @@ class Server {
 
   routes(): void {
     this.app.use("/users", userRoutes);
-    this.app.use("/movies", userRoutes);
+    this.app.use("/movies", movieRoutes);
   }
 
   start(): void {
