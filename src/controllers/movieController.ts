@@ -59,10 +59,48 @@ class MovieController extends Controller {
         }
       } else {
         res.status(400).send({
-          message: "Param expected",
+          message: "Param 'id' expected",
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      res.status(500).send({
+        message: "Unexpected error",
+        error,
+      });
+    }
+  };
+
+  deleteResource = async (req: Request, res: Response) => {
+    try {
+      if (req.params) {
+        const id: number = Number(req.params.id);
+
+        const deletedMovie = await Movie.destroy({
+          where: { id },
+        });
+
+        if (deletedMovie) {
+          res.status(200).send({
+            message: "Resource deleted successfully",
+            resource: deletedMovie,
+          });
+        } else {
+          res.status(204).send({
+            message: "Resource wasn't deleted",
+            resource: deletedMovie,
+          });
+        }
+      } else {
+        res.status(400).send({
+          message: "Param 'id' expected",
+        });
+      }
+    } catch (error) {
+      res.status(500).send({
+        message: "Unexpected error",
+        error,
+      });
+    }
   };
 }
 
