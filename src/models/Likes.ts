@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utilities/DBInstance";
-import { User } from "../models/Users";
+import User from "../models/Users";
 import Movie from "../models/Movies";
 
 export interface LikeAttributes {
@@ -31,7 +31,7 @@ const Like = sequelize.define("Likes", {
   },
 });
 
-// Movie.belongsToMany(User, { through: Like });
-// User.belongsToMany(Movie, { through: Like });
+Movie.hasMany(Like, { foreignKey: "id_movie" });
+Like.belongsTo(Movie, { foreignKey: "id" });
 
 export default Like;

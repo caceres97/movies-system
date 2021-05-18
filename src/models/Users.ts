@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utilities/DBInstance";
+import Like from "./Likes";
+import Movie from "./Movies";
 
 export interface UserAttributes {
   id: number;
@@ -9,7 +11,7 @@ export interface UserAttributes {
   type: number;
 }
 
-export const User = sequelize.define("Users", {
+const User = sequelize.define("Users", {
   id: {
     primaryKey: true,
     autoIncrement: true,
@@ -20,3 +22,5 @@ export const User = sequelize.define("Users", {
   passwd: DataTypes.STRING(500),
   type: DataTypes.STRING(1),
 });
+
+export default User;

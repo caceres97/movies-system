@@ -13,36 +13,42 @@ class MovieController extends Controller {
   }
 
   likeAction = async (req: Request, res: Response) => {
-    // const likeData = snakecaseKeys(req.params);
-    const { idMovie, idUser } = req.params;
+    try {
+      const { idMovie, idUser } = req.params;
 
-    const likeData = {
-      id_user: Number(idUser),
-      id_movie: Number(idMovie),
-    };
+      const likeData = {
+        id_user: Number(idUser),
+        id_movie: Number(idMovie),
+      };
 
-    const recentLike = await Like.findOne({
-      where: {
-        ...likeData,
-      },
-    });
-    console.log(recentLike);
-
-    if (!recentLike) {
-      const likedMovie = await Like.create(likeData);
-      res.send({
-        message: "liked",
-        liked: true,
-      });
-    } else {
-      const unlikedMovie = await Like.destroy({
+      const recentLike = await Like.findOne({
         where: {
           ...likeData,
         },
       });
-      res.send({
-        message: "unliked",
-        liked: false,
+      console.log(recentLike);
+
+      if (!recentLike) {
+        await Like.create(likeData);
+        res.send({
+          message: "liked",
+          liked: true,
+        });
+      } else {
+        const unlikedMovie = await Like.destroy({
+          where: {
+            ...likeData,
+          },
+        });
+        res.send({
+          message: "unliked",
+          liked: false,
+        });
+      }
+    } catch (error) {
+      res.status(500).send({
+        message: "Unexpected error",
+        error,
       });
     }
   };

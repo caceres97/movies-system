@@ -1,6 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utilities/DBInstance";
 import Category from "../models/Category";
+import User from "./Users";
+import Like from "./Likes";
 
 export interface MovieAttributes {
   id: number;

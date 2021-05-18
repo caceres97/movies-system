@@ -1,12 +1,33 @@
 import Controller from "../utilities/Controller";
 import { Request, Response } from "express";
-import { User, UserAttributes } from "../models/Users";
+import User, { UserAttributes } from "../models/Users";
+import Like from "../models/Likes";
+import Movie from "../models/Movies";
 
 class UserController extends Controller {
   constructor() {
     super("users");
   }
 
+  getUserLikes = async (req: Request, res: Response) => {
+    try {
+      const idUser = req.params.idUser;
+
+      const userLikes = await Like.findAll({
+        where: {
+          id_user: idUser,
+        },
+        include: [{ model: Movie, required: true }],
+      });
+
+      res.send(userLikes);
+    } catch (error) {
+      res.status(500).send({
+        message: "Unexpected error",
+        error,
+      });
+    }
+  };
   getSingleResource = async (req: Request, res: Response) => {
     try {
       const id = Number(req.params.id);
