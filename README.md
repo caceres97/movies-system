@@ -17,3 +17,4 @@ DBUSER=poma
 PASSWORD=poma1324
 HOST=localhost
 ```
+PSD: Create a db with .sql file in the project.
