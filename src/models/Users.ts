@@ -1,7 +1,5 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utilities/DBInstance";
-import Like from "./Likes";
-import Movie from "./Movies";
 
 export interface UserAttributes {
   id: number;

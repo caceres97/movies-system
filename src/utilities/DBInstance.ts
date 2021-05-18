@@ -1,13 +1,17 @@
 import dotenv from "dotenv";
 import { Sequelize } from "sequelize";
 
-// TODO: Improve this shit
 class SequelizeInstance {
-  // private config: {}
   public sqInstance: Sequelize;
 
   constructor() {
-    this.sqInstance = new Sequelize("movies_system", "poma", "poma1324", {
+    dotenv.config();
+
+    const dbName = String(process.env.DB);
+    const dbUser = String(process.env.DBUSER);
+    const dbPasswd = String(process.env.PASSWORD);
+
+    this.sqInstance = new Sequelize(dbName, dbUser, dbPasswd, {
       host: "localhost",
       dialect: "mysql",
       define: {
