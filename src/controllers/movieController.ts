@@ -47,7 +47,7 @@ class MovieController extends Controller {
       }
 
       const movies = await Movie.findAll(attributes);
-      
+
       if (movies) {
         res.status(200).send(movies);
       } else {
@@ -133,7 +133,7 @@ class MovieController extends Controller {
         if (deletedMovie) {
           res.status(200).send({
             message: "Resource deleted successfully",
-            resource: deletedMovie,
+            resourceId: deletedMovie,
           });
         } else {
           res.status(204).send({
