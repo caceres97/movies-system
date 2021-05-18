@@ -1,12 +1,11 @@
 import Controller from "../utilities/Controller";
 import { Request, Response } from "express";
-import { User, UserAttributes } from "../models/Users";
 import { Movie, MovieAttributes } from "../models/Movies";
 import snakecaseKeys from "snakecase-keys";
 
 class MovieController extends Controller {
   constructor() {
-    super("users");
+    super("movies");
   }
 
   getSingleResource = (req: Request, res: Response) => {
@@ -14,18 +13,19 @@ class MovieController extends Controller {
   };
 
   createResource = async (req: Request, res: Response) => {
-    const userData = req.body as UserAttributes;
+    const movieData = snakecaseKeys(req.body);
+    // res.send(movieData)
     try {
-      const createdUser = await User.create(userData);
-      if (createdUser) {
+      const createdMovie = await Movie.create(movieData);
+      if (createdMovie) {
         res.status(201).send({
           message: "Resource created successfully",
-          resource: createdUser,
+          resource: createdMovie,
         });
       } else {
         res.status(204).send({
           message: "Resource wasn't created",
-          resource: createdUser,
+          resource: createdMovie,
         });
       }
     } catch (error) {
