@@ -6,15 +6,21 @@ class MovieRoutes extends Routes {
     super();
 
     this.getMovie();
+    this.getMovies();
     this.createMovie();
     this.updateMovie();
+    this.deleteMovie();
 
     // Always at last
     this.urlNotFound();
   }
 
   public getMovie = (): void => {
-    this.router.get("/", movieController.getSingleResource);
+    this.router.get("/:id", movieController.getSingleResource);
+  };
+
+  public getMovies = (): void => {
+    this.router.get("/", movieController.getResources);
   };
 
   public createMovie = (): void => {
@@ -23,6 +29,10 @@ class MovieRoutes extends Routes {
 
   public updateMovie = (): void => {
     this.router.put("/:id", movieController.updateResource);
+  };
+
+  public deleteMovie = (): void => {
+    this.router.delete("/:id", movieController.deleteResource);
   };
 }
 
